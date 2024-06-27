@@ -18,6 +18,8 @@ DISPLAY_SURFACE: object = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("CS50P Final Project: Handball")
 
 # Main game function
+
+
 def main():
 
     # Player attributes
@@ -27,7 +29,8 @@ def main():
     # Player object
     player: object = Player(1080, 360, 15, 60, PLAYER_COLOR, PLAYER_SPEED)
 
-    # Add player to the player_sprite group of sprites (that only stores one sprite)
+    # Add player to the player_sprite group of sprites (that only stores one
+    # sprite)
     player_sprite: object = pygame.sprite.GroupSingle()
     player_sprite.add(player)
 
@@ -43,8 +46,12 @@ def main():
     ball_sprite.add(ball)
 
     # Game manager
-    game_manager: object = GameManager(DISPLAY_SURFACE, player_sprite, ball_sprite)
-    
+    game_manager: object = GameManager(
+        DISPLAY_SURFACE,
+        player_sprite,
+        ball_sprite
+    )
+
     # Main game loop
     while True:
 
@@ -72,18 +79,18 @@ def main():
                 # Move paddle up by pressing the Up Arrow key
                 if event.key == pygame.K_UP:
                     player.movement -= player.speed
-                
+
                 # Move paddle down by pressing the Down Arrow key
                 if event.key == pygame.K_DOWN:
                     player.movement += player.speed
-            
+
             # Check for events releasing a determined key
             if event.type == pygame.KEYUP:
 
                 # Stop moving paddle up by releasing the Up Arrow key
                 if event.key == pygame.K_UP:
                     player.movement += player.speed
-                
+
                 # Stop moving paddle down by releasing the Down Arrow key
                 if event.key == pygame.K_DOWN:
                     player.movement -= player.speed
@@ -96,9 +103,9 @@ def main():
         clock.tick(FPS)
 
 
-# Ensures a valid color regardless of user input (Defaults to 211)
+# Ensures a valid color is returned regardless of user input (Defaults to 211)
 def ensure_color(color=211) -> int:
-    
+
     # Ensure color input is a valid number
     try:
         if color < 0:
@@ -116,32 +123,33 @@ def ensure_color(color=211) -> int:
 
 # Return valid color tuple (Defaults to (211, 211, 211))
 def set_color(red=211, green=211, blue=211) -> tuple:
-    
+
     # Ensure colors input are valid
     red = ensure_color(red)
     green = ensure_color(green)
     blue = ensure_color(blue)
-    
+
     # If we've reached this far, return tuple
     return (red, green, blue)
 
 
-# Returns valid speed for each object (0 being a ball, anything else being a paddle)
+# Returns valid speed for each object (0 being a ball, anything else being a
+# paddle)
 def set_speed(object, speed) -> float:
-    
+
     # Check for ball or paddle
     try:
         match object:
-        
+
             # If setting the speed of a ball, use these constraints
             case 0:
                 if speed < 6 or speed > 15:
                     speed = 12
-            
+
             # If setting the speed of a paddle, use these constraints
             case _:
                 if speed < 12 or speed > 25:
-                    speed = 18   
+                    speed = 18
 
     # If speed is not a number, exit program
     except TypeError:
